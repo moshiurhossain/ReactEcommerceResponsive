@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slick-dots .slick-active div {
+background: #db4444 !important;
+border: 2px solid white;
+
+}

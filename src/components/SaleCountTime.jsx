@@ -6,7 +6,7 @@ import { countDownDateAndTime } from 'countdown-date-time'
 
 
 const SaleCountTime = () => {
-    const conduct_date = '2024-09-25 00:00:00';
+    const conduct_date = '2024-12-25 00:00:00';
    
     let [count,setCount]=useState({});
     useEffect(()=>{ const countDown = countDownDateAndTime(conduct_date);

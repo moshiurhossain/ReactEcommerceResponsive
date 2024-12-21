@@ -89,7 +89,7 @@ const FlashSale = () => {
 
 <Flex className='lg:gap-[87px] gap-[15px] mb-[10px] flex-col lg:flex-row'> 
           <Title subtitle="Today's" maintitle="Flash Sales"/>
-        <SaleCountTime/>
+        {/* <SaleCountTime/> */}
         </Flex>
 <div className='lg:mt-[30px] mt-[20px]'>
         <Slider {...settings} className='justify-evenly '>

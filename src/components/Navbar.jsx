@@ -26,7 +26,7 @@ const Navbar = () => {
   let dispatch= useDispatch()
   let userData = useSelector((state)=>state.userLogin.value) 
   
-  console.log(userData)
+  
 
 // cart-product-quantity-show start
   let cartdata = useSelector((state)=>state.allproduct.cart)
@@ -34,10 +34,21 @@ const Navbar = () => {
 
 // account-toggle-show-hide start
 let [accountShow,setAccountshow]=useState(false)
-
-let handleAccount=()=>{
-  setAccountshow(!accountShow)
-}
+let accountref = useRef()
+useEffect(()=>{
+  window.addEventListener('click',function(e){
+ if(accountref.current.contains(e.target)){
+  setAccountshow(true)
+ }else{
+  setAccountshow(false)
+ }
+    
+  })
+ 
+})
+// let handleAccount=()=>{
+//   setAccountshow(!accountShow)
+// }
 // account-toggle-show-hide end
 // Menu-toggle-show-hide Start
 let [menuShow, setMenuShow]= useState(false)
@@ -62,6 +73,27 @@ let handleLogout = ()=>{
   });
 }
 // Logout End
+
+// productSearch start
+let productData =useSelector((state)=>state.allproduct.product)
+
+
+let [searchProduct,setSearchProduct] =useState([])
+
+
+ let handleProductSearch = (e)=>{
+  if(!e.target.value == ''){
+    let productFilter= productData.filter((item)=> {
+      return item.title.toLowerCase().includes(e.target.value.toLowerCase()) 
+     })
+     setSearchProduct(productFilter)
+  }else{setSearchProduct([])}
+
+
+ }
+
+// productSearch End
+
   return (
  <nav className='mt-10 border-b pb-4 border-gray-300 relative'>
    <Container>
@@ -79,7 +111,63 @@ let handleLogout = ()=>{
   </List>
   <Flex className='items-center lg:gap-6 gap-4'>
     <div className='relative w-[245px] mt-5 lg:mt-0 '>
-    <input className='bg-searchInput w-full py-[10px] px-[20px] placeholder:font-poppins text-xs leading-[18px] placeholder:text-black' placeholder="what are you looking for ?" type='text' /> <IoSearchOutline  className='absolute top-[10px] right-[20px] text-[16px]'/>
+      {/* search bar start */}
+    <input
+   onChange={handleProductSearch}
+    className='bg-searchInput w-full py-[10px] px-[20px] placeholder:font-poppins text-xs leading-[18px] placeholder:text-black' placeholder="what are you looking for ?" type='text ' /> 
+   
+    <IoSearchOutline  className='absolute top-[10px] right-[20px] text-[16px]'/> 
+    {/* search bar end */} 
+    {/* /////// */}
+  {searchProduct.length > 0 && (
+
+<div className='w-[290px] h-[200px] overflow-y-scroll bg-white border shadow-2xl absolute top-18 rounded-lg'>
+
+<div className="relative">
+  <table className="w-fit text-sm text-left rtl:text-right text-black dark:text-black">
+    {/* <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" className="p-[5px] py-3">
+          Product name
+        </th>
+       
+        <th scope="col" className="p-[5px] py-3">
+          Category
+        </th>
+        <th scope="col" className="p-[5px] py-3">
+          Price
+        </th>
+      </tr>
+    </thead> */}
+    <tbody>
+      {searchProduct.map((item)=>(
+ <Link to={`/productdetail/${item.id}`}>
+      <tr className=" ">
+        <th
+          scope="row"
+          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:black"
+        >
+         {`${item.title.slice(0,15)}...`}
+        </th>
+       
+        <td className="px-6 py-4">{item.price}</td>
+        {/* <td className="px-6 py-4">{item.category}</td> */}
+      </tr> </Link>
+
+      ) )}
+     
+   
+    </tbody>
+  </table>
+</div>
+
+
+
+    </div>
+
+  )}
+
+    {/* ////// */}
     </div>
    <Flex className='lg:gap-4 items-center gap-3 lg:mt-0 mt-4'>
    <FaRegHeart className='text-xl' />
@@ -104,8 +192,8 @@ let handleLogout = ()=>{
 
 
    <div className='flex items-center relative'>
- 
-   <MdOutlineManageAccounts className='text-xl cursor-pointer' onClick={handleAccount} />
+ {/* use ref for account icon */}
+   <div ref={accountref} ><MdOutlineManageAccounts className='text-xl cursor-pointer'  /></div>
  
  <div className={ ` ${accountShow ? 'block' : 'hidden'}`}>
 <List className='text-searchInput rounded-[7px] absolute lg:w-[220px] w-[150px] lg:py-[5px] lg:pr-[10px] bg-gradient-to-r from-cyan-950  via-slate-600 to-black top-[35px] lg:right-0  right-4'>

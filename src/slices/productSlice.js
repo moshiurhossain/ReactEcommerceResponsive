@@ -31,8 +31,9 @@ if(findIndex == -1){
   },
 
   removeProduct:(state,action)=>{
+console.log(action.payload)
+state.cart.splice(action.payload.id,1)
 
-state.cart.splice(action.payload.id, 1);
 localStorage.setItem("cart",JSON.stringify([...state.cart]))
 },
 productquantityUpdate:(state,action)=>{

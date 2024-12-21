@@ -10,12 +10,15 @@ import { useSelector } from 'react-redux';
 
 const CartItem = ({cartImage,itemPrice,itemName,totalcost,id,qun,index}) => {
   
+
+  
   let subtotal = qun*totalcost;
 
   let dispatch =useDispatch();
 
   let handleDeleteCart=()=>{
     dispatch(removeProduct(id))
+    // console.log(id)
   }
 
   let cartData = useSelector((state)=>state.allproduct.cart)
